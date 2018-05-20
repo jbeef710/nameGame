@@ -19,7 +19,7 @@ public class WebTest {
      */
     @Before
     public void setup() {
-        System.setProperty("webdriver.chrome.driver", "chromedriver.mac");
+        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
         Capabilities capabilities = DesiredCapabilities.chrome();
         driver = new ChromeDriver(capabilities);
         driver.navigate().to("http://www.ericrochester.com/name-game/");
@@ -37,10 +37,35 @@ public class WebTest {
                 .validateClickingFirstPhotoIncreasesTriesCounter();
     }
 
+    @Test
+    public void test_clicking_correct_photo_increases_streak_counter() {
+        new HomePage(driver)
+                .validateClickingCorrectPhotoIncreasesStreakCounter();
+    }
+
+    @Test
+    public void test_streak_counter_reset_on_incorrect_selection() {
+        new HomePage(driver)
+                .validateClickingCorrectPhotoIncreasesStreakCounter();
+        new HomePage(driver)
+                .validateWrongPicClickStreakReset();
+    }
+
+    @Test
+    public void test_counters_post_10_random_selections() {
+        new HomePage(driver)
+                .validateCountsAfterTenRandomPicks();
+    }
+
+    @Test
+    public void test_name_and_pics_change_after_correct_selection() {
+        new HomePage(driver)
+                .validateNameAndPicsChange();
+    }
+
     @After
     public void teardown() {
         driver.quit();
         System.clearProperty("webdriver.chrome.driver");
     }
-
 }
